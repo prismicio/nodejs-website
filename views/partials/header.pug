@@ -1,0 +1,11 @@
+header.site-header
+  a(href='./')
+    .logo Example Site
+  
+  if menuContent != null
+    nav
+      ul
+        each link in menuContent.getGroup('menu.menuLinks').toArray()
+          li
+            a(href=link.getLink("link").url(ctx.linkResolver))
+              != link.getText("label")

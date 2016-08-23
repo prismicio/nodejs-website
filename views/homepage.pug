@@ -1,0 +1,31 @@
+extends ./layout.pug
+
+block prepend body
+  body.homepage
+    
+    include ./partials/header.pug
+    
+    -// Homepage Banner Section
+    section.homepage-banner(style='background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url(' + pageContent.getImage("homepage.backgroundImage").url + ')')
+      .banner-content.container
+        h2.banner-title !{pageContent.getText("homepage.title")}
+        p.banner-description !{pageContent.getText("homepage.tagline")}
+        if ( pageContent.getLink("homepage.buttonLink") && pageContent.getText("homepage.buttonText") )
+          a.banner-button(href=pageContent.getLink("homepage.buttonLink").url(ctx.linkResolver)) !{pageContent.getText("homepage.buttonText")}
+    
+    -// Content Section
+    div.container
+    
+      for slice in pageContent.getSliceZone('homepage.body').slices
+        case slice.sliceType
+          when 'heading'
+            include ./partials/heading.pug
+          when 'textSection'
+            include ./partials/text-section.pug
+          when 'fullWidthImage'
+            include ./partials/full-width-image.pug
+          when 'highlight'
+            include ./partials/highlight.pug
+          when 'gallery'
+            include ./partials/gallery.pug
+
