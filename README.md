@@ -16,9 +16,18 @@ Create a new Heroku application
 $ heroku create
 ```
 
-Push your code to heroku:
+Initialize a new Git repository:
 
 ```
+$ git init
+$ heroku git:remote -a your-heroku-app-name
+```
+
+Commit your code to the Git repository and deploy it to Heroku:
+
+```
+$ git add .
+$ git commit -am "make it better"
 $ git push heroku master
 ```
 
