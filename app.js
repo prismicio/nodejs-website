@@ -46,36 +46,43 @@ app.route('/preview').get(function(req, res) {
 app.route('/:uid').get(function(req, res) {
   var uid = req.params.uid;
   api(req, res).then(function(api) {
-    api.getByUID("page", uid).then(function(pageContent) {
-      api.getByUID("menu", "main-nav").then(function(menuContent) {
-        res.render('page', {
+    Promise.all([
+      api.getByUID("page", uid),
+      api.getByUID("menu", "main-nav")
+    ])
+      .then(function(content) {
+        var pageContent = content[0];
+        var menuContent = content[1];
+        res.render('homepage', {
           pageContent: pageContent,
           menuContent: menuContent
         });
-      }).catch(function(err) {
+      })
+      .catch(function(err) {
         handleError(err, req, res);
-      });
-    }).catch(function(err) {
-      handleError(err, req, res);
-    });
+      })
+      ;
   });
 });
 
 // Route for the homepage
 app.route('/').get(function(req, res){
   api(req, res).then(function(api) {
-    api.getByUID("homepage", "homepage").then(function(pageContent) {
-      api.getByUID("menu", "main-nav").then(function(menuContent) {
+    Promise.all([
+      api.getByUID("homepage", "homepage"),
+      api.getByUID("menu", "main-nav")
+    ])
+      .then(function(content) {
+        var pageContent = content[0];
+        var menuContent = content[1];
         res.render('homepage', {
           pageContent: pageContent,
           menuContent: menuContent
         });
-      }).catch(function(err) {
+      })
+      .catch(function(err) {
         handleError(err, req, res);
-      });
-    }).catch(function(err) {
-      handleError(err, req, res);
-    });
+      })
+      ;
   });
 });
-
