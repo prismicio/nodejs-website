@@ -53,7 +53,7 @@ app.route('/:uid').get(function(req, res) {
       .then(function(content) {
         var pageContent = content[0];
         var menuContent = content[1];
-        res.render('homepage', {
+        res.render('page', {
           pageContent: pageContent,
           menuContent: menuContent
         });
