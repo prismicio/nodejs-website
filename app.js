@@ -1,81 +1,109 @@
+/*jslint node: true */
+/*jshint esnext: true */
+"use strict";
 
 /**
  * Module dependencies.
  */
-var prismic = require('prismic-nodejs');
-var app = require('./config');
-var configuration = require('./prismic-configuration');
-var PORT = app.get('port');
+const Prismic = require('prismic-javascript');
+const PrismicDOM = require('prismic-dom');
+const app = require('./config');
+const Cookies = require('cookies');
+const PrismicConfig = require('./prismic-configuration');
+const PORT = app.get('port');
 
-// Returns a Promise
-function api(req, res) {
-  // So we can use this information in the views
+app.listen(PORT, () => {
+  process.stdout.write(`Point your browser to: http://localhost:${PORT}\n`);
+});
+
+// Middleware to inject prismic context
+app.use((req, res, next) => {
   res.locals.ctx = {
-    endpoint: configuration.apiEndpoint,
-    linkResolver: configuration.linkResolver
+    endpoint: PrismicConfig.apiEndpoint,
+    linkResolver: PrismicConfig.linkResolver,
   };
-  return prismic.api(configuration.apiEndpoint, {
-    accessToken: configuration.accessToken,
-    req: req
+  // add PrismicDOM in locals to access them in templates.
+  res.locals.PrismicDOM = PrismicDOM;
+  Prismic.api(PrismicConfig.apiEndpoint, {
+    accessToken: PrismicConfig.accessToken,
+    req,
+  }).then((api) => {
+    req.prismic = { api };
+    next();
+  }).catch((error) => {
+    next(error.message);
   });
-}
+});
 
-// Error handling
-function handleError(err, req, res) {
-  if (err.status == 404) {
-    res.status(404).send("404 not found");
+// Query the site layout with every route 
+app.route('*').get((req, res, next) => {
+  req.prismic.api.getSingle('menu')
+  .then(function(menuContent){
+    
+    // Define the layout content
+    res.locals.menuContent = menuContent;
+    next();
+  });
+});
+
+
+/*
+ * -------------- Routes --------------
+ */
+
+/*
+ * Preconfigured prismic preview
+ */
+app.get('/preview', (req, res) => {
+  const token = req.query.token;
+  if (token) {
+    req.prismic.api.previewSession(token, PrismicConfig.linkResolver, '/')
+    .then((url) => {
+      const cookies = new Cookies(req, res);
+      cookies.set(Prismic.previewCookie, token, { maxAge: 30 * 60 * 1000, path: '/', httpOnly: false });
+      res.redirect(302, url);
+    }).catch((err) => {
+      res.status(500).send(`Error 500 in preview: ${err.message}`);
+    });
   } else {
-    res.status(500).send("Error 500: " + err.message);
+    res.send(400, 'Missing token from querystring');
   }
-}
-
-app.listen(PORT, function() {
-  console.log('Express server listening on port ' + PORT);
 });
 
-// Route used when integrating the preview functionality
-app.route('/preview').get(function(req, res) {
-  api(req, res).then(function(api) {
-    return prismic.preview(api, configuration.linkResolver, req, res);
-  }).catch(function(err) {
-    handleError(err, req, res);
+/*
+ * Page route
+ */
+app.get('/:uid', (req, res, next) => {
+  // Store the param uid in a variable
+  const uid = req.params.uid;
+  
+  // Get a page by its uid
+  req.prismic.api.getByUID("page", uid)
+  .then((pageContent) => {
+    if (pageContent) {
+      res.render('page', { pageContent });
+    } else {
+      res.status(404).render('404');
+    }
+  })
+  .catch((error) => {
+    next(`error when retriving page ${error.message}`);
   });
 });
 
-// Route for pages
-app.route('/:uid').get(function(req, res) {
-  var uid = req.params.uid;
-  api(req, res).then(function(api) {
-    api.getByUID("page", uid).then(function(pageContent) {
-      api.getByUID("menu", "main-nav").then(function(menuContent) {
-        res.render('page', {
-          pageContent: pageContent,
-          menuContent: menuContent
-        });
-      }).catch(function(err) {
-        handleError(err, req, res);
-      });
-    }).catch(function(err) {
-      handleError(err, req, res);
-    });
+/*
+ * Homepage route
+ */
+app.get('/', (req, res, next) => {
+  req.prismic.api.getSingle("homepage")
+  .then((pageContent) => {
+    if (pageContent) {
+      res.render('homepage', { pageContent });
+    } else {
+      res.status(404).send('Could not find a homepage document. Make sure you create and publish a homepage document in your repository.');
+    }
+  })
+  .catch((error) => {
+    next(`error when retriving page ${error.message}`);
   });
 });
-
-// Route for the homepage
-app.route('/').get(function(req, res){
-  api(req, res).then(function(api) {
-    api.getByUID("homepage", "homepage").then(function(pageContent) {
-      api.getByUID("menu", "main-nav").then(function(menuContent) {
-        res.render('homepage', {
-          pageContent: pageContent,
-          menuContent: menuContent
-        });
-      }).catch(function(err) {
-        handleError(err, req, res);
-      });
-    }).catch(function(err) {
-      handleError(err, req, res);
-    });
-  });
-});
-

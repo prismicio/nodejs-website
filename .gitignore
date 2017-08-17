@@ -16,4 +16,4 @@ node_modules
 development
 
 .idea
-
+/package-lock.json

@@ -1,0 +1,16 @@
+section.image-gallery.content-section
+
+  != PrismicDOM.RichText.asHtml(slice.primary.gallery_title, ctx.linkResolver)
+  
+  div.gallery
+    //- Loop through the gallery items
+    each galleryItem in slice.items
+
+      div.gallery-item
+        img(src=galleryItem.image.url)
+        != PrismicDOM.RichText.asHtml(galleryItem.image_description, ctx.linkResolver)
+
+        if ( galleryItem.link && galleryItem.link_label )
+          p.gallery-link
+            a(href=PrismicDOM.Link.url(galleryItem.link, ctx.linkResolver))
+              != PrismicDOM.RichText.asText(galleryItem.link_label)

@@ -4,7 +4,7 @@ Node.js website is a website template with content managed from prismic.io (API-
 
 #### Getting started
 
-Read [this guide](https://prismic.io/docs/examples/website#?lang=node) for instructions to create your repository and use the sample blog.
+Read [this guide](https://intercom.help/prismicio/examples/nodejs-samples/sample-multi-page-site-with-navigation-in-nodejs) for instructions to create your repository and use the sample website.
 
 #### Deploy your Node.js website
 

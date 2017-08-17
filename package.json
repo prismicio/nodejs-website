@@ -1,5 +1,5 @@
 {
-  "name": "javascript-nodejs-starter",
+  "name": "nodejs-website",
   "version": "2.0.0",
   "private": true,
   "scripts": {
@@ -7,17 +7,20 @@
   },
   "dependencies": {
     "body-parser": "~1.0.0",
+    "cookies": "^0.7.0",
     "debug": "~0.7.4",
     "errorhandler": "~1.1.1",
     "express": "~4.13.4",
     "method-override": "~2.1.1",
     "morgan": "~1.0.0",
+    "prismic-dom": "^1.2.8",
+    "prismic-javascript": "^1.1.6",
     "prismic-nodejs": "~1.0.0",
     "pug": "^2.0.0-alpha6",
     "serve-favicon": "~2.3.0"
   },
   "repository": {
     "type": "git",
-    "url": "http://github.com/prismicio/javascript-nodejs-starter.git"
+    "url": "https://github.com/prismicio/nodejs-website.git"
   }
 }

@@ -23,7 +23,6 @@ module.exports = function() {
   app.use(bodyParser());
   app.use(methodOverride());
   app.use(express.static(path.join(__dirname, 'public')));
-
   app.use(errorHandler());
 
   return app;
