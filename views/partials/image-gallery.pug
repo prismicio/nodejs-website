@@ -10,7 +10,8 @@ section.image-gallery.content-section
         img(src=galleryItem.image.url)
         != PrismicDOM.RichText.asHtml(galleryItem.image_description, ctx.linkResolver)
 
-        if ( galleryItem.link && galleryItem.link_label )
+        - var galleryLink = PrismicDOM.Link.url(galleryItem.link, ctx.linkResolver)
+        - var linkLabel = PrismicDOM.RichText.asText(galleryItem.link_label)
+        if ( galleryLink && linkLabel != " " )
           p.gallery-link
-            a(href=PrismicDOM.Link.url(galleryItem.link, ctx.linkResolver))
-              != PrismicDOM.RichText.asText(galleryItem.link_label)
+            a(href=galleryLink) !{linkLabel}

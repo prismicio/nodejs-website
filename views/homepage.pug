@@ -13,9 +13,10 @@ block prepend body
           != PrismicDOM.RichText.asText(banner.title)
         p.banner-description
           != PrismicDOM.RichText.asText(banner.tagline)
-        if ( banner.button_link && banner.button_label )
-          a.banner-button(href=PrismicDOM.Link.url(banner.button_link, ctx.linkResolver))
-            != PrismicDOM.RichText.asText(banner.button_label)
+        - var buttonLink = PrismicDOM.Link.url(banner.button_link, ctx.linkResolver)
+        - var buttonLabel = PrismicDOM.RichText.asText(banner.button_label)
+        if ( buttonLink && buttonLabel != " " )
+          a.banner-button(href=buttonLink) !{buttonLabel}
     
     // Content Section
     div.container
