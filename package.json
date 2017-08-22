@@ -13,7 +13,7 @@
     "express": "~4.15.4",
     "method-override": "~2.3.9",
     "morgan": "~1.8.2",
-    "prismic-dom": "^1.2.8",
+    "prismic-dom": "^2.0.0",
     "prismic-javascript": "^1.2.0",
     "pug": "^2.0.0-alpha6",
     "serve-favicon": "~2.4.3"
