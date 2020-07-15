@@ -13,7 +13,7 @@
     "method-override": "~2.3.9",
     "morgan": "~1.8.2",
     "prismic-dom": "^2.0.0",
-    "prismic-javascript": "^1.2.0",
+    "prismic-javascript": "3.0.1",
     "pug": "^2.0.0-alpha6",
     "serve-favicon": "~2.4.3"
   },

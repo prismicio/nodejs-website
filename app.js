@@ -53,16 +53,16 @@ app.route('*').get((req, res, next) => {
 /*
  * Preconfigured prismic preview
  */
-app.get('/preview', (req, res) => {
-  const token = req.query.token;
-  if (token) {
-    req.prismic.api.previewSession(token, PrismicConfig.linkResolver, '/')
-    .then((url) => {
-      res.redirect(302, url);
-    }).catch((err) => {
+app.get('/preview', async ( req, res) => {
+  const { token, documentId } = req.query;
+  if(token){
+    try{
+      const redirectUrl = (await req.prismic.api.getPreviewResolver(token, documentId).resolve(PrismicConfig.linkResolver, '/'));
+      res.redirect(302, redirectUrl);
+    }catch(e){
       res.status(500).send(`Error 500 in preview: ${err.message}`);
-    });
-  } else {
+    }
+  }else{
     res.send(400, 'Missing token from querystring');
   }
 });
