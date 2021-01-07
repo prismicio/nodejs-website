@@ -5,7 +5,7 @@
 /**
  * Module dependencies.
  */
-const Prismic = require('prismic-javascript');
+const Prismic = require('@prismicio/client');
 const PrismicDOM = require('prismic-dom');
 const app = require('./config');
 const PrismicConfig = require('./prismic-config');
@@ -23,7 +23,7 @@ app.use((req, res, next) => {
   };
   // add PrismicDOM in locals to access them in templates.
   res.locals.PrismicDOM = PrismicDOM;
-  Prismic.api(PrismicConfig.apiEndpoint, {
+  Prismic.getApi(PrismicConfig.apiEndpoint, {
     accessToken: PrismicConfig.accessToken,
     req,
   }).then((api) => {
