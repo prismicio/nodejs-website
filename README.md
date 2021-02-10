@@ -1,53 +1,43 @@
-### Sample Website with API-based CMS
+# Prismic & NodeJS & Slicemachine Multi-page website example
 
-Node.js website is a website template with content managed from prismic.io (API-based CMS).
+> [NodeJS](https://nodejs.org) example multi-page website project with content managed in [Prismic](https://prismic.io)
 
-#### Getting started
+## Check out the dedicated article to get this project up and running
 
-Read [this guide](https://intercom.help/prismicio/examples/nodejs-samples/sample-multi-page-site-with-navigation-in-nodejs) for instructions to create your repository and use the sample website.
+> [Prismic project guide](https://user-guides.prismic.io/en/articles/868750-sample-multi-page-site-with-navigation-in-node-js)
 
-#### Deploy your Node.js website
-
-An easy way to deploy your Node.js website is to use [Heroku](http://www.heroku.com). Just follow these few simple steps once you have successfully [signed up](https://id.heroku.com/signup/www-header) and [installed the Heroku toolbelt](https://toolbelt.heroku.com/):
-
-Create a new Heroku application
-
+### 1. Install the prismic-cli
 ```
-$ heroku create
+npm install -g prismic-cli
 ```
 
-Initialize a new Git repository:
+### 2. Run the theme command
+This will create a new Prismic content repository, setup the custom types, and install the project code
 
 ```
-$ git init
-$ heroku git:remote -a your-heroku-app-name
-```
-
-Commit your code to the Git repository and deploy it to Heroku:
+prismic theme --theme-url https://github.com/prismicio/nodejs-website --conf prismic-configuration.js
 
 ```
-$ git add .
-$ git commit -am "make it better"
-$ git push heroku master
-```
+### 3. Run the project
 
-Ensure you have at least one node running:
-
+Install nodemon
 ```
-$ heroku ps:scale web=1
+npm install -g nodemon
 ```
-
-You can now browse your application online:
-
+Then, run your project
 ```
-$ heroku open
+nodemon
 ```
+Then you can access it at [http://localhost:3000](http://localhost:3000).
+## Learn more about using Prismic & Slicemachine with Node.js
 
-### Licence
+> [Prismic + Node.js Documentation](https://prismic.io/docs/technologies/nodejs)
+
+## License
 
 This software is licensed under the Apache 2 license, quoted below.
 
-Copyright 2017 Prismic.io (https://prismic.io/).
+Copyright 2021 [Prismic](http://prismic.io).
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this project except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
 
