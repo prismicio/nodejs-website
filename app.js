@@ -8,7 +8,7 @@
 const Prismic = require('@prismicio/client');
 const PrismicDOM = require('prismic-dom');
 const app = require('./config');
-const PrismicConfig = require('./prismic-config');
+const PrismicConfig = require('./prismic-configuration');
 const PORT = app.get('port');
 
 app.listen(PORT, () => {
