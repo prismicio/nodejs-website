@@ -1,0 +1,14 @@
+<html>
+  <head>
+    <%- include('./partials/head'); %>
+  </head>
+  <body>
+    <%- include('./partials/navigation'); %>
+    <div class="container">
+      <%- include("SliceZone", {SliceZone: pageContent.data.page_content}); %>
+    </div>
+    <footer>
+      <%- include('./partials/footer'); %>
+    </footer>
+  </body>
+</html>
