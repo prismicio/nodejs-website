@@ -1,53 +1,20 @@
-### Sample Website with API-based CMS
+# Prismic & Node.js Example Multi-Page Site
 
-Node.js website is a website template with content managed from prismic.io (API-based CMS).
+> [Node.js](https://nodejs.org) example multi-page website project with content managed in [Prismic](https://prismic.io)
 
-#### Getting started
+## Check out the dedicated article to get this project up and running
 
-Read [this guide](https://intercom.help/prismicio/examples/nodejs-samples/sample-multi-page-site-with-navigation-in-nodejs) for instructions to create your repository and use the sample website.
+> [Prismic project guide](https://prismic.io/docs/technologies/express-examples)
 
-#### Deploy your Node.js website
+## Learn more about using Prismic & Node.js
 
-An easy way to deploy your Node.js website is to use [Heroku](http://www.heroku.com). Just follow these few simple steps once you have successfully [signed up](https://id.heroku.com/signup/www-header) and [installed the Heroku toolbelt](https://toolbelt.heroku.com/):
+> [Prismic + Express.js Documentation](https://prismic.io/docs/technologies/express-overview)
 
-Create a new Heroku application
-
-```
-$ heroku create
-```
-
-Initialize a new Git repository:
-
-```
-$ git init
-$ heroku git:remote -a your-heroku-app-name
-```
-
-Commit your code to the Git repository and deploy it to Heroku:
-
-```
-$ git add .
-$ git commit -am "make it better"
-$ git push heroku master
-```
-
-Ensure you have at least one node running:
-
-```
-$ heroku ps:scale web=1
-```
-
-You can now browse your application online:
-
-```
-$ heroku open
-```
-
-### Licence
+## License
 
 This software is licensed under the Apache 2 license, quoted below.
 
-Copyright 2017 Prismic.io (https://prismic.io/).
+Copyright 2021 [Prismic](http://prismic.io).
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this project except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
 
