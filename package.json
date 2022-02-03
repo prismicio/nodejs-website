@@ -16,7 +16,7 @@
     "express": "~4.15.4",
     "install": "^0.13.0",
     "method-override": "~2.3.9",
-    "morgan": "~1.8.2",
+    "morgan": "~1.9.1",
     "node-fetch": "^3.1.0",
     "nodemon": "^2.0.15",
     "npm": "^8.3.0",
