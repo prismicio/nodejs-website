@@ -2,23 +2,31 @@
   "name": "nodejs-website",
   "description": "Sample website built with Node.js using Prismic headless CMS",
   "author": "Prismic",
+  "type": "module",
   "scripts": {
     "start": "node app.js"
   },
   "dependencies": {
-    "@prismicio/client": "^4.0.0",
+    "@prismicio/client": "^6.0.0",
+    "@prismicio/helpers": "^2.0.0",
     "body-parser": "~1.17.2",
     "debug": "~3.0.0",
+    "ejs": "^3.1.6",
     "errorhandler": "^1.5.1",
     "express": "~4.15.4",
+    "install": "^0.13.0",
     "method-override": "~2.3.9",
     "morgan": "~1.8.2",
-    "prismic-dom": "^2.2.4",
-    "pug": "^2.0.4",
+    "node-fetch": "^3.1.0",
+    "nodemon": "^2.0.15",
+    "npm": "^8.3.0",
     "serve-favicon": "~2.4.3"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/prismicio/nodejs-website"
+  },
+  "devDependencies": {
+    "eslint": "^8.8.0"
   }
 }

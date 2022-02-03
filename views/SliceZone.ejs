@@ -1,0 +1,21 @@
+<%- SliceZone.reduce((prevSlices, slice) => {
+  if (slice.slice_type === 'text_section') {
+     return prevSlices + include('./slices/TextSection.ejs', { slice: slice })
+   }  
+  else if (slice.slice_type === 'quote') {
+    return prevSlices + include('./slices/Quote.ejs', { slice: slice })
+  }
+  else if (slice.slice_type === 'full_width_image') {
+    return prevSlices + include('./slices/FullWidthImage.ejs', { slice: slice })
+  }
+  else if (slice.slice_type === 'image_gallery') {
+    return prevSlices + include('./slices/ImageGallery.ejs', { slice: slice })
+  }
+  else if (slice.slice_type === 'image_highlight') {
+    return prevSlices + include('./slices/ImageHighlight.ejs', { slice: slice })
+  }
+  else {
+    return '<h1>No Slices found</h1>';
+  } 
+}, '') %>
+

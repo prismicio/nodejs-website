@@ -1,0 +1,18 @@
+<header class="site-header">
+  <a href="./">
+    <div class="logo">Example Site</div>
+  </a>
+  <% if (menuContent != null) { %>
+    <nav>
+      <ul>
+        <% menuContent.data.menu_links.map(menuLink => { %>
+          <li>
+            <a href="<%- ctx.prismicH.asLink(menuLink.link) %>">
+              <%- ctx.prismicH.asText(menuLink.label) %>
+            </a>
+         </li>
+        <% }) %>
+      </ul>
+    </nav>
+  <% } %>
+</header>

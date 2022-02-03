@@ -1,0 +1,9 @@
+<% var sectionClass;
+  if ( slice.slice_label ) { 
+    sectionClass="text-section-" + slice.slice_label;
+  } else { 
+    sectionClass="text-section-1col";
+  } %>
+<section class="content-section <%- sectionClass %>">
+  <%- ctx.prismicH.asHTML(slice.primary.rich_text) %>
+</section>

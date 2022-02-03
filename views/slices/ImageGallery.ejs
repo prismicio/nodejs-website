@@ -1,0 +1,19 @@
+<section class="image-gallery content-section">
+  <%- ctx.prismicH.asHTML(slice.primary.gallery_title) %>
+  <div class="gallery">
+    <% slice.items.map(galleryItems => { %>
+      <div class="gallery-item">
+        <img 
+          src="<%- galleryItems.image.url %>" 
+          alt="<%- galleryItems.image.alt %>" 
+        />
+        <%- ctx.prismicH.asHTML(galleryItems.image_description) %>
+        <p class="gallery-link">
+          <a href="<%- ctx.prismicH.asLink(galleryItems.link) %>">
+            <%- ctx.prismicH.asText(galleryItems.link_label) %>
+          </a>
+        </p>
+      </div>
+    <% }) %>
+  </div>
+</section>

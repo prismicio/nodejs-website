@@ -1,106 +1,77 @@
 /*jslint node: true */
 /*jshint esnext: true */
-"use strict";
+'use strict';
 
 /**
  * Module dependencies.
  */
-const Prismic = require('@prismicio/client');
-const PrismicDOM = require('prismic-dom');
-const app = require('./config');
-const PrismicConfig = require('./prismic-configuration');
-const PORT = app.get('port');
+import app from './config.js';
+import { client, repoName } from './prismic-configuration.js';
+import * as prismicH from '@prismicio/helpers';
+import asyncHandler from './utils/async-handler.js';
 
-app.listen(PORT, () => {
+const route = app();
+const PORT = route.get('port');
+
+route.listen(PORT, () => {
   process.stdout.write(`Point your browser to: http://localhost:${PORT}\n`);
 });
 
-// Middleware to inject prismic context
-app.use((req, res, next) => {
+// Middleware to enables Previews
+const prismicAutoPreviewsMiddleware = (req, _res, next) => {
+  client.enableAutoPreviewsFromReq(req);
+  next();
+};
+route.use(prismicAutoPreviewsMiddleware);
+
+// Middleware to connect to inject prismic context
+route.use((req, res, next) => {
   res.locals.ctx = {
-    endpoint: PrismicConfig.apiEndpoint,
-    linkResolver: PrismicConfig.linkResolver,
+    prismicH,
+    repoName,
   };
-  // add PrismicDOM in locals to access them in templates.
-  res.locals.PrismicDOM = PrismicDOM;
-  Prismic.getApi(PrismicConfig.apiEndpoint, {
-    accessToken: PrismicConfig.accessToken,
-    req,
-  }).then((api) => {
-    req.prismic = { api };
-    next();
-  }).catch((error) => {
-    next(error.message);
-  });
+  next();
 });
 
-// Query the site layout with every route 
-app.route('*').get((req, res, next) => {
-  req.prismic.api.getSingle('menu')
-  .then(function(menuContent){
-    
-    // Define the layout content
+// Route for Previews
+route.get(
+  '/preview',
+  asyncHandler(async (req, res, next) => {
+    const redirectUrl = await client.resolvePreviewURL({ defaultURL: '/' });
+    res.redirect(302, redirectUrl);
+  })
+);
+
+// Query the site layout with every route
+route.get(
+  '*',
+  asyncHandler(async (req, res, next) => {
+    const menuContent = await client.getSingle('menu');
     res.locals.menuContent = menuContent;
     next();
-  });
-});
-
-
-/*
- * -------------- Routes --------------
- */
-
-/*
- * Preconfigured prismic preview
- */
-app.get('/preview', async ( req, res) => {
-  const { token, documentId } = req.query;
-  if(token){
-    try{
-      const redirectUrl = (await req.prismic.api.getPreviewResolver(token, documentId).resolve(PrismicConfig.linkResolver, '/'));
-      res.redirect(302, redirectUrl);
-    }catch(e){
-      res.status(500).send(`Error 500 in preview: ${err.message}`);
-    }
-  }else{
-    res.send(400, 'Missing token from querystring');
-  }
-});
-
-/*
- * Page route
- */
-app.get('/:uid', (req, res, next) => {
-  // Store the param uid in a variable
-  const uid = req.params.uid;
-  
-  // Get a page by its uid
-  req.prismic.api.getByUID("page", uid)
-  .then((pageContent) => {
-    if (pageContent) {
-      res.render('page', { pageContent });
-    } else {
-      res.status(404).render('404');
-    }
   })
-  .catch((error) => {
-    next(`error when retriving page ${error.message}`);
-  });
-});
+);
 
-/*
- * Homepage route
- */
-app.get('/', (req, res, next) => {
-  req.prismic.api.getSingle("homepage")
-  .then((pageContent) => {
-    if (pageContent) {
-      res.render('homepage', { pageContent });
-    } else {
-      res.status(404).send('Could not find a homepage document. Make sure you create and publish a homepage document in your repository.');
-    }
+// Route for homepage
+route.get(
+  '/',
+  asyncHandler(async (req, res, next) => {
+    const homePageContent = await client.getSingle('homepage');
+    res.render('HomePage', { homePageContent });
   })
-  .catch((error) => {
-    next(`error when retriving page ${error.message}`);
-  });
+);
+
+// Route for page
+route.get(
+  '/:uid',
+  asyncHandler(async (req, res, next) => {
+    const uid = req.params.uid;
+    const pageContent = await client.getByUID('page', uid);
+    res.render('page', { pageContent });
+  })
+);
+
+// 404 route for anything else
+route.get('*', async (req, res, next) => {
+  res.status(404).render('./error_handlers/404');
 });

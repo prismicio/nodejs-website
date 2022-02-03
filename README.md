@@ -1,13 +1,14 @@
 # Prismic & Node.js Example Multi-Page Site
+
 > [Node.js](https://nodejs.org) example multi-page website project with content managed in [Prismic](https://prismic.io)
 
 ## Check out the dedicated article to get this project up and running
 
-> [Prismic project guide](https://user-guides.prismic.io/en/articles/868750-sample-multi-page-site-with-navigation-in-node-js)
+> [Prismic project guide](https://prismic.io/docs/technologies/express-examples)
 
 ## Learn more about using Prismic & Node.js
 
-> [Prismic + Node.js Documentation](https://prismic.io/docs/technologies/nodejs)
+> [Prismic + Express.js Documentation](https://prismic.io/docs/technologies/express-overview)
 
 ## License
 
