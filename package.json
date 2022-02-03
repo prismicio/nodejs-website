@@ -25,5 +25,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/prismicio/nodejs-website"
+  },
+  "devDependencies": {
+    "eslint": "^8.8.0"
   }
 }
